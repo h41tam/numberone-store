@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Rodfat";
+  src: url("/fonts/rodfat.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BostonCaps";
+  src: url("/fonts/boston-caps.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ghrathe";
+  src: url("/fonts/Ghrathe.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cinzel";
+  src: url("/fonts/Cinzel-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cinzel";
+  src: url("/fonts/Cinzel-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cinzel";
+  src: url("/fonts/Cinzel-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cinzel Decorative";
+  src: url("fonts/CinzelDecorative-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cinzel Decorative";
+  src: url("fonts/CinzelDecorative-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cinzel Decorative";
+  src: url("fonts/CinzelDecorative-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Karina";
+  src: url("/fonts/Karina.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Kastroo";
+  src: url("/fonts/KASTROO.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TechnoHideo";
+  src: url("/fonts/techno-hideo.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SuperCrawler";
+  src: url("/fonts/SuperCrawler.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+:root {
+  --background: 18 18 18;
+  /* #121212 */
+  --surface: 26 26 26;
+  /* #1A1A1A */
+  --foreground: 245 243 238;
+  /* #F5F3EE */
+  --primary: 212, 175, 55;
+  /* #E3C766 */
+  --muted: 154 154 154;
+  /* #9A9A9A */
+  --border: 42 42 42;
+  /* #2A2A2A */
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-boston-caps antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-rodfat tracking-wide;
+  }
+}
