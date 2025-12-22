@@ -52,12 +52,18 @@ Route::get('/debug-config', function () {
             'CLOUDINARY_CLOUD_NAME' => !empty(env('CLOUDINARY_CLOUD_NAME')),
             'CLOUDINARY_API_KEY' => !empty(env('CLOUDINARY_API_KEY')),
             'CLOUDINARY_API_SECRET' => !empty(env('CLOUDINARY_API_SECRET')),
+            'CLOUDINARY_NAME' => !empty(env('CLOUDINARY_NAME')),
+            'CLOUDINARY_KEY' => !empty(env('CLOUDINARY_KEY')),
+            'CLOUDINARY_SECRET' => !empty(env('CLOUDINARY_SECRET')),
         ],
         'getenv_check' => [
             'DB_HOST' => getenv('DB_HOST'),
             'DB_CONNECTION' => getenv('DB_CONNECTION'),
             'CLOUDINARY_CLOUD_NAME' => getenv('CLOUDINARY_CLOUD_NAME'),
             'CLOUDINARY_API_KEY' => getenv('CLOUDINARY_API_KEY'),
+            'CLOUDINARY_NAME' => getenv('CLOUDINARY_NAME'),
+            'CLOUDINARY_KEY' => getenv('CLOUDINARY_KEY'),
+            'CLOUDINARY_SECRET' => getenv('CLOUDINARY_SECRET'),
         ],
         'available_env_keys' => $allKeys,
     ]);

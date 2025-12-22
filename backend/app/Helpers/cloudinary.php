@@ -4,11 +4,15 @@ use Cloudinary\Cloudinary;
 
 function cloudinaryUpload($file, $folder = 'products', $resourceType = 'auto')
 {
+    $cloudName = env('CLOUDINARY_CLOUD_NAME') ?: env('CLOUDINARY_NAME') ?: getenv('CLOUDINARY_CLOUD_NAME') ?: getenv('CLOUDINARY_NAME');
+    $apiKey = env('CLOUDINARY_API_KEY') ?: env('CLOUDINARY_KEY') ?: getenv('CLOUDINARY_API_KEY') ?: getenv('CLOUDINARY_KEY');
+    $apiSecret = env('CLOUDINARY_API_SECRET') ?: env('CLOUDINARY_SECRET') ?: getenv('CLOUDINARY_API_SECRET') ?: getenv('CLOUDINARY_SECRET');
+
     $cloudinary = new Cloudinary([
         'cloud' => [
-            'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-            'api_key' => env('CLOUDINARY_API_KEY'),
-            'api_secret' => env('CLOUDINARY_API_SECRET'),
+            'cloud_name' => $cloudName,
+            'api_key' => $apiKey,
+            'api_secret' => $apiSecret,
         ],
         'url' => ['secure' => true],
     ]);
@@ -24,11 +28,15 @@ function cloudinaryUpload($file, $folder = 'products', $resourceType = 'auto')
 
 function cloudinaryDestroy($publicId)
 {
+    $cloudName = env('CLOUDINARY_CLOUD_NAME') ?: env('CLOUDINARY_NAME') ?: getenv('CLOUDINARY_CLOUD_NAME') ?: getenv('CLOUDINARY_NAME');
+    $apiKey = env('CLOUDINARY_API_KEY') ?: env('CLOUDINARY_KEY') ?: getenv('CLOUDINARY_API_KEY') ?: getenv('CLOUDINARY_KEY');
+    $apiSecret = env('CLOUDINARY_API_SECRET') ?: env('CLOUDINARY_SECRET') ?: getenv('CLOUDINARY_API_SECRET') ?: getenv('CLOUDINARY_SECRET');
+
     $cloudinary = new Cloudinary([
         'cloud' => [
-            'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-            'api_key' => env('CLOUDINARY_API_KEY'),
-            'api_secret' => env('CLOUDINARY_API_SECRET'),
+            'cloud_name' => $cloudName,
+            'api_key' => $apiKey,
+            'api_secret' => $apiSecret,
         ],
         'url' => ['secure' => true],
     ]);
