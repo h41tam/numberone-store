@@ -9,6 +9,16 @@ Route::get('/', function () {
         'canRegister' => Features::enabled(Features::registration()),
     ]);
 })->name('home');
+Route::get('/api/debug-mongo', function () {
+    try {
+        $client = new MongoDB\Client(env('DB_URI'));
+        $db = $client->selectDatabase('numberone-store');
+        $collections = $db->listCollections();
+        return response()->json($collections);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
