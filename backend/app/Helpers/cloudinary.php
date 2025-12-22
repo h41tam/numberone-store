@@ -2,7 +2,7 @@
 
 use Cloudinary\Cloudinary;
 
-function cloudinaryUpload($file, $folder = 'products')
+function cloudinaryUpload($file, $folder = 'products', $resourceType = 'auto')
 {
     $cloudinary = new Cloudinary([
         'cloud' => [
@@ -17,7 +17,7 @@ function cloudinaryUpload($file, $folder = 'products')
         $file->getRealPath(),
         [
             'folder' => $folder,
-            'resource_type' => 'auto',
+            'resource_type' => $resourceType,
         ]
     );
 }

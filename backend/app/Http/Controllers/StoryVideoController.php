@@ -51,7 +51,7 @@ class StoryVideoController extends Controller
         $payload = ['product_id' => $product->id];
 
         try {
-            $upload = cloudinaryUpload($request->file('video'), 'story_videos');
+            $upload = cloudinaryUpload($request->file('video'), 'story_videos', 'video');
             $payload['video_url'] = $upload['secure_url'] ?? null;
             $payload['video_public_id'] = $upload['public_id'] ?? null;
         } catch (\Throwable $e) {

@@ -2,8 +2,8 @@ FROM php:8.2-cli
 
 # System dependencies including SSL
 RUN apt-get update && apt-get install -y \
-    git unzip libzip-dev libssl-dev \
-    && docker-php-ext-install zip \
+    git unzip libzip-dev libssl-dev libcurl4-openssl-dev \
+    && docker-php-ext-install zip curl \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb
 

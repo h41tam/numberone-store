@@ -49,10 +49,15 @@ Route::get('/debug-config', function () {
             'DB_URI' => !empty(env('DB_URI')),
             'MONGODB_URI' => !empty(env('MONGODB_URI')),
             'DB_CONNECTION' => env('DB_CONNECTION'),
+            'CLOUDINARY_CLOUD_NAME' => !empty(env('CLOUDINARY_CLOUD_NAME')),
+            'CLOUDINARY_API_KEY' => !empty(env('CLOUDINARY_API_KEY')),
+            'CLOUDINARY_API_SECRET' => !empty(env('CLOUDINARY_API_SECRET')),
         ],
         'getenv_check' => [
             'DB_HOST' => getenv('DB_HOST'),
             'DB_CONNECTION' => getenv('DB_CONNECTION'),
+            'CLOUDINARY_CLOUD_NAME' => getenv('CLOUDINARY_CLOUD_NAME'),
+            'CLOUDINARY_API_KEY' => getenv('CLOUDINARY_API_KEY'),
         ],
         'available_env_keys' => $allKeys,
     ]);

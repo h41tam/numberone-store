@@ -104,12 +104,13 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             try {
-                $upload = cloudinaryUpload($request->file('image'));
+                $upload = cloudinaryUpload($request->file('image'), 'products', 'image');
                 $data['image'] = $upload['secure_url'];
                 if (isset($upload['public_id'])) {
                     $data['image_public_id'] = $upload['public_id'];
                 }
             } catch (\Throwable $e) {
+                return response()->json(['message' => 'Image upload failed'], 422);
             }
         }
 
@@ -194,12 +195,13 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             try {
-                $upload = cloudinaryUpload($request->file('image'));
+                $upload = cloudinaryUpload($request->file('image'), 'products', 'image');
                 $data['image'] = $upload['secure_url'];
                 if (isset($upload['public_id'])) {
                     $data['image_public_id'] = $upload['public_id'];
                 }
             } catch (\Throwable $e) {
+                return response()->json(['message' => 'Image upload failed'], 422);
             }
         }
 
