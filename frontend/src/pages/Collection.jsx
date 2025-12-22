@@ -1,15 +1,118 @@
 import { useEffect, useMemo, useState } from "react"
 import ProductCard from "../components/productCard"
+import { API_BASE_URL } from "../config"
+
+const PLACEHOLDER_PRODUCTS = [
+  {
+    id: "placeholder-1",
+    name: "Veste Premium",
+    description: "Une veste elegante pour toutes les occasions",
+    price: 599,
+    image: "/placeholder.svg",
+    category: "Vestes",
+    sex: "unisex",
+    colors: ["Noir", "Beige"],
+    stock: 10,
+    is_featured: true
+  },
+  {
+    id: "placeholder-2",
+    name: "Chemise Classique",
+    description: "Chemise en coton de haute qualite",
+    price: 349,
+    image: "/placeholder.svg",
+    category: "Chemises",
+    sex: "homme",
+    colors: ["Blanc", "Bleu"],
+    stock: 15,
+    is_featured: true
+  },
+  {
+    id: "placeholder-3",
+    name: "Robe Elegante",
+    description: "Robe parfaite pour les soirees",
+    price: 799,
+    image: "/placeholder.svg",
+    category: "Robes",
+    sex: "femme",
+    colors: ["Noir", "Rouge"],
+    stock: 8,
+    is_featured: true
+  },
+  {
+    id: "placeholder-4",
+    name: "Pantalon Moderne",
+    description: "Confort et style au quotidien",
+    price: 449,
+    image: "/placeholder.svg",
+    category: "Pantalons",
+    sex: "unisex",
+    colors: ["Gris", "Marine"],
+    stock: 12,
+    is_featured: true
+  },
+  {
+    id: "placeholder-5",
+    name: "T-shirt Basique",
+    description: "T-shirt confortable en coton bio",
+    price: 199,
+    image: "/placeholder.svg",
+    category: "T-shirts",
+    sex: "unisex",
+    colors: ["Blanc", "Noir", "Gris"],
+    stock: 25,
+    is_featured: false
+  },
+  {
+    id: "placeholder-6",
+    name: "Jean Slim",
+    description: "Jean coupe slim moderne",
+    price: 399,
+    image: "/placeholder.svg",
+    category: "Jeans",
+    sex: "homme",
+    colors: ["Bleu", "Noir"],
+    stock: 18,
+    is_featured: false
+  },
+  {
+    id: "placeholder-7",
+    name: "Pull Over",
+    description: "Pull chaud et elegant",
+    price: 449,
+    image: "/placeholder.svg",
+    category: "Pulls",
+    sex: "femme",
+    colors: ["Beige", "Rose"],
+    stock: 10,
+    is_featured: false
+  },
+  {
+    id: "placeholder-8",
+    name: "Veste Legere",
+    description: "Parfaite pour les mi-saisons",
+    price: 549,
+    image: "/placeholder.svg",
+    category: "Vestes",
+    sex: "unisex",
+    colors: ["Olive", "Marine"],
+    stock: 7,
+    is_featured: false
+  }
+]
+
+const PLACEHOLDER_CATEGORIES = ["Vestes", "Chemises", "Robes", "Pantalons", "T-shirts", "Jeans", "Pulls"]
+const PLACEHOLDER_SEX_OPTIONS = ["homme", "femme", "unisex"]
 
 export default function Collection() {
-  const [productsState, setProductsState] = useState([])
+  const [productsState, setProductsState] = useState(PLACEHOLDER_PRODUCTS)
   const [search, setSearch] = useState("")
   const [category, setCategory] = useState("all")
   const [sex, setSex] = useState("all")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [categories, setCategories] = useState([])
-  const [sexOptions, setSexOptions] = useState([])
+  const [categories, setCategories] = useState(PLACEHOLDER_CATEGORIES)
+  const [sexOptions, setSexOptions] = useState(PLACEHOLDER_SEX_OPTIONS)
 
   useEffect(() => {
     let ignore = false
@@ -17,19 +120,19 @@ export default function Collection() {
     async function load() {
       setLoading(true)
       try {
-        const response = await fetch("http://localhost:8000/api/products")
+        const response = await fetch(`${API_BASE_URL}/products`)
         if (!response.ok) {
           throw new Error("Failed to fetch products")
         }
         const data = await response.json()
 
-        if (!ignore && Array.isArray(data)) {
+        if (!ignore && Array.isArray(data) && data.length > 0) {
           setProductsState(data)
           setError(null)
         }
       } catch {
         if (!ignore) {
-          setError("Erreur lors du chargement des produits.")
+          setError(null)
         }
       } finally {
         if (!ignore) {
@@ -56,10 +159,10 @@ export default function Collection() {
         }
         const data = await response.json()
         if (!ignore && data) {
-          if (Array.isArray(data.categories)) {
+          if (Array.isArray(data.categories) && data.categories.length > 0) {
             setCategories(data.categories)
           }
-          if (Array.isArray(data.sexes)) {
+          if (Array.isArray(data.sexes) && data.sexes.length > 0) {
             setSexOptions(data.sexes)
           }
         }

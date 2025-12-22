@@ -1,8 +1,60 @@
 import { useEffect, useState } from "react"
 import ProductCard from "./productCard"
+import { API_BASE_URL } from "../config"
+
+const PLACEHOLDER_PRODUCTS = [
+    {
+        id: "placeholder-1",
+        name: "Veste Premium",
+        description: "Une veste elegante pour toutes les occasions",
+        price: 599,
+        image: "/placeholder.svg",
+        category: "Vestes",
+        sex: "unisex",
+        colors: ["Noir", "Beige"],
+        stock: 10,
+        is_featured: true
+    },
+    {
+        id: "placeholder-2",
+        name: "Chemise Classique",
+        description: "Chemise en coton de haute qualite",
+        price: 349,
+        image: "/placeholder.svg",
+        category: "Chemises",
+        sex: "homme",
+        colors: ["Blanc", "Bleu"],
+        stock: 15,
+        is_featured: true
+    },
+    {
+        id: "placeholder-3",
+        name: "Robe Elegante",
+        description: "Robe parfaite pour les soirees",
+        price: 799,
+        image: "/placeholder.svg",
+        category: "Robes",
+        sex: "femme",
+        colors: ["Noir", "Rouge"],
+        stock: 8,
+        is_featured: true
+    },
+    {
+        id: "placeholder-4",
+        name: "Pantalon Moderne",
+        description: "Confort et style au quotidien",
+        price: 449,
+        image: "/placeholder.svg",
+        category: "Pantalons",
+        sex: "unisex",
+        colors: ["Gris", "Marine"],
+        stock: 12,
+        is_featured: true
+    }
+]
 
 export default function FeaturedSection() {
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState(PLACEHOLDER_PRODUCTS)
 
     useEffect(() => {
         let ignore = false
@@ -14,7 +66,7 @@ export default function FeaturedSection() {
                     throw new Error("Failed to fetch products")
                 }
                 const data = await response.json()
-                if (!ignore && Array.isArray(data)) {
+                if (!ignore && Array.isArray(data) && data.length > 0) {
                     setProducts(data)
                 }
             } catch (error) {
