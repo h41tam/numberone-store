@@ -28,4 +28,4 @@ RUN php artisan key:generate || true \
 EXPOSE 10000
 
 # 🚨 THIS IS THE MOST IMPORTANT LINE
-CMD php artisan serve --host=0.0.0.0 --port={PORT:-10000}
+CMD bash -lc "php artisan migrate:status || true; php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"
