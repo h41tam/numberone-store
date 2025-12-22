@@ -204,9 +204,9 @@ class ProductController extends Controller
         }
 
         if ($product->image) {
-            $path = parse_url($product->image, PHP_URL_PATH);
-            $filename = pathinfo($path, PATHINFO_FILENAME);
-            (new UploadApi())->destroy("products/$filename");
+            // Optional: Implement Cloudinary delete if needed
+            // $path = parse_url($product->image, PHP_URL_PATH);
+            // ...
         }
 
         $product->delete();

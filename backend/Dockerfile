@@ -23,4 +23,4 @@ RUN cp .env.example .env \
 EXPOSE ${PORT:-10000}
 
 # Start Laravel
-CMD bash -lc "php artisan storage:link && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"
+CMD bash -lc "php artisan config:clear && php artisan storage:link && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"
