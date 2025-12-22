@@ -16,9 +16,7 @@ WORKDIR /var/www
 COPY . .
 
 # Install PHP dependencies
-RUN cp .env.example .env \
-    && composer install --no-dev --optimize-autoloader \
-    && php artisan key:generate
+RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE ${PORT:-10000}
 
