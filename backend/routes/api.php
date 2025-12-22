@@ -50,6 +50,10 @@ Route::get('/debug-config', function () {
             'MONGODB_URI' => !empty(env('MONGODB_URI')),
             'DB_CONNECTION' => env('DB_CONNECTION'),
         ],
+        'getenv_check' => [
+            'DB_HOST' => getenv('DB_HOST'),
+            'DB_CONNECTION' => getenv('DB_CONNECTION'),
+        ],
         'available_env_keys' => $allKeys,
     ]);
 });
