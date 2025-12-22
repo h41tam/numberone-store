@@ -5,7 +5,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://numberone1-store.netlify.app'],
+    'allowed_origins' => ['https://numberone-store.netlify.app'],
         
     'allowed_origins_patterns' => [],
 
