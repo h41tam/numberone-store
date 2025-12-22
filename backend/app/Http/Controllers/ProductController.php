@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -16,7 +15,7 @@ class ProductController extends Controller
                 'id' => $product->id,
                 'name' => $product->name,
                 'price' => $product->price,
-                'image' => $this->imageUrl($product->image),
+                'image' => $product->image,
                 'description' => $product->description,
                 'colors' => $product->colors,
                 'sizes' => $product->sizes,
@@ -40,7 +39,7 @@ class ProductController extends Controller
                     'id' => $product->id,
                     'name' => $product->name,
                     'price' => $product->price,
-                    'image' => $this->imageUrl($product->image),
+                    'image' => $product->image,
                     'description' => $product->description,
                     'colors' => $product->colors,
                     'sizes' => $product->sizes,
@@ -66,7 +65,7 @@ class ProductController extends Controller
             'id' => $product->id,
             'name' => $product->name,
             'price' => $product->price,
-            'image' => $this->imageUrl($product->image),
+            'image' => $product->image,
             'description' => $product->description,
             'colors' => $product->colors,
             'sizes' => $product->sizes,
@@ -111,7 +110,7 @@ class ProductController extends Controller
             'id' => $product->id,
             'name' => $product->name,
             'price' => $product->price,
-            'image' => $this->imageUrl($product->image),
+            'image' => $product->image,
             'description' => $product->description,
             'colors' => $product->colors,
             'sizes' => $product->sizes,
@@ -166,16 +165,16 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('products', 'public');
-            $data['image'] = $path;
+            $upload = cloudinaryUpload($request->file('image'));
+            $data['image'] = $upload['secure_url'];
         }
 
         if (isset($data['colors']) && is_string($data['colors'])) {
-            $data['colors'] = array_values(array_filter(array_map('trim', explode(',', $data['colors']))));
+            $data['colors'] = array_values(array_filter(array_map('trim', explode(' ', $data['colors']))));
         }
 
         if (isset($data['sizes']) && is_string($data['sizes'])) {
-            $data['sizes'] = array_values(array_filter(array_map('trim', explode(',', $data['sizes']))));
+            $data['sizes'] = array_values(array_filter(array_map('trim', explode(' ', $data['sizes']))));
         }
 
         $product->fill($data);
@@ -204,27 +203,14 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product not found'], 404);
         }
 
+        if ($product->image) {
+            $path = parse_url($product->image, PHP_URL_PATH);
+            $filename = pathinfo($path, PATHINFO_FILENAME);
+            (new UploadApi())->destroy("products/$filename");
+        }
+
         $product->delete();
 
         return response()->json([], 204);
-    }
-
-    private function imageUrl(?string $value): ?string
-    {
-        if ($value === null || $value === '') {
-            return null;
-        }
-
-        if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
-            return $value;
-        }
-
-        $path = $value;
-
-        if (str_starts_with($value, '/storage/')) {
-            $path = ltrim(substr($value, 9), '/');
-        }
-
-        return Storage::disk('public')->url($path);
     }
 }
