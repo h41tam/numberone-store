@@ -1,9 +1,9 @@
-FROM php:8.3-cli
+FROM php:8.2-cli
 
-# System dependencies
+# System deps
 RUN apt-get update && apt-get install -y \
-    git unzip libssl-dev libcurl4-openssl-dev pkg-config \
-    && docker-php-ext-install pdo
+    git unzip libzip-dev \
+    && docker-php-ext-install zip
 
 # MongoDB extension
 RUN pecl install mongodb \
@@ -12,12 +12,20 @@ RUN pecl install mongodb \
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /app
+WORKDIR /var/www
+
+# Copy files
 COPY . .
 
-# Install PHP dependencies ONLY
+# Install deps
 RUN composer install --no-dev --optimize-autoloader
 
+# Laravel optimizations
+RUN php artisan key:generate || true \
+    && php artisan optimize || true
+
+# Render uses port 10000
 EXPOSE 10000
 
+# 🚨 THIS IS THE MOST IMPORTANT LINE
 CMD php artisan serve --host=0.0.0.0 --port=10000
