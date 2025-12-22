@@ -78,10 +78,21 @@ class ProductController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'image' => 'required|file|mimetypes:image/*',
+            'description' => 'nullable|string',
+            'colors' => 'nullable|string',
+            'sizes' => 'nullable|string',
+            'sex' => 'nullable|string',
+            'stock' => 'nullable|integer|min:0',
+            'category' => 'nullable|string',
+            'is_featured' => 'nullable|boolean',
+        ]);
         $data = $request->only([
             'name',
             'price',
-            'image',
             'description',
             'colors',
             'sizes',
@@ -92,8 +103,14 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $upload = cloudinaryUpload($request->file('image'));
-            $data['image'] = $upload['secure_url'];
+            try {
+                $upload = cloudinaryUpload($request->file('image'));
+                $data['image'] = $upload['secure_url'];
+                if (isset($upload['public_id'])) {
+                    $data['image_public_id'] = $upload['public_id'];
+                }
+            } catch (\Throwable $e) {
+            }
         }
 
         if (isset($data['colors']) && is_string($data['colors'])) {
@@ -151,10 +168,21 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product not found'], 404);
         }
 
+        $request->validate([
+            'name' => 'nullable|string|max:255',
+            'price' => 'nullable|numeric|min:0',
+            'image' => 'nullable|file|mimetypes:image/*',
+            'description' => 'nullable|string',
+            'colors' => 'nullable|string',
+            'sizes' => 'nullable|string',
+            'sex' => 'nullable|string',
+            'stock' => 'nullable|integer|min:0',
+            'category' => 'nullable|string',
+            'is_featured' => 'nullable|boolean',
+        ]);
         $data = $request->only([
             'name',
             'price',
-            'image',
             'description',
             'colors',
             'sizes',
@@ -165,8 +193,14 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $upload = cloudinaryUpload($request->file('image'));
-            $data['image'] = $upload['secure_url'];
+            try {
+                $upload = cloudinaryUpload($request->file('image'));
+                $data['image'] = $upload['secure_url'];
+                if (isset($upload['public_id'])) {
+                    $data['image_public_id'] = $upload['public_id'];
+                }
+            } catch (\Throwable $e) {
+            }
         }
 
         if (isset($data['colors']) && is_string($data['colors'])) {
@@ -203,10 +237,8 @@ class ProductController extends Controller
             return response()->json(['message' => 'Product not found'], 404);
         }
 
-        if ($product->image) {
-            // Optional: Implement Cloudinary delete if needed
-            // $path = parse_url($product->image, PHP_URL_PATH);
-            // ...
+        if ($product->image_public_id) {
+            cloudinaryDestroy($product->image_public_id);
         }
 
         $product->delete();

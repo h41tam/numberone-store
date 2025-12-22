@@ -6,7 +6,6 @@ use App\Models\Product;
 use App\Models\StoryVideo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class StoryVideoController extends Controller
 {
@@ -15,32 +14,14 @@ class StoryVideoController extends Controller
         $entries = StoryVideo::query()->latest()->get()->map(function (StoryVideo $story) {
             $product = Product::query()->find($story->product_id);
 
-            $image = null;
-
-            if ($product && $product->image) {
-                $value = $product->image;
-
-                if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
-                    $image = $value;
-                } else {
-                    $path = $value;
-
-                    if (str_starts_with($value, '/storage/')) {
-                        $path = ltrim(substr($value, 9), '/');
-                    }
-
-                    $image = Storage::disk('public')->url($path);
-                }
-            }
-
             return [
                 'id' => (string) $story->_id,
-                'video_url' => Storage::disk('public')->url($story->video_path),
+                'video_url' => $story->video_url,
                 'product' => $product ? [
                     'id' => $product->id,
                     'name' => $product->name,
                     'price' => $product->price,
-                    'image' => $image,
+                    'image' => $product->image,
                     'description' => $product->description,
                     'colors' => $product->colors,
                     'sizes' => $product->sizes,
@@ -67,16 +48,21 @@ class StoryVideoController extends Controller
             return response()->json(['message' => 'Product not found'], 404);
         }
 
-        $path = $request->file('video')->store('story_videos', 'public');
+        $payload = ['product_id' => $product->id];
 
-        $story = StoryVideo::query()->create([
-            'product_id' => $product->id,
-            'video_path' => $path,
-        ]);
+        try {
+            $upload = cloudinaryUpload($request->file('video'), 'story_videos');
+            $payload['video_url'] = $upload['secure_url'] ?? null;
+            $payload['video_public_id'] = $upload['public_id'] ?? null;
+        } catch (\Throwable $e) {
+            return response()->json(['message' => 'Video upload failed'], 422);
+        }
+
+        $story = StoryVideo::query()->create($payload);
 
         return response()->json([
             'id' => (string) $story->_id,
-            'video_url' => Storage::disk('public')->url($story->video_path),
+            'video_url' => $story->video_url,
             'product_id' => $product->id,
         ], 201);
     }
@@ -89,8 +75,8 @@ class StoryVideoController extends Controller
             return response()->json(['message' => 'Story video not found'], 404);
         }
 
-        if ($story->video_path) {
-            Storage::disk('public')->delete($story->video_path);
+        if ($story->video_public_id) {
+            cloudinaryDestroy($story->video_public_id);
         }
 
         $story->delete();

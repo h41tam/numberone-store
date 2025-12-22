@@ -12,7 +12,7 @@ class StoryVideo extends Model
 
     protected $fillable = [
         'product_id',
-        'video_path',
+        'video_url',
+        'video_public_id',
     ];
 }
-
