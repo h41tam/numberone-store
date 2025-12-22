@@ -65,7 +65,7 @@ return [
         
         'mongodb' => [
             'driver'   => 'mongodb',
-            'dsn'      => env('DB_URI'),
+            'dsn'      => env('DB_URI', env('DB_HOST')),
             'database' => env('DB_DATABASE', 'numberone-store'),
         ],
         
