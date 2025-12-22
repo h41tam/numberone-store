@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import ProductCard from "./productCard"
-import { VITE_API_URL } from "@/lib/api"
+import { BASE_API_URL } from "@/lib/api"
 
 export default function FeaturedSection() {
     const [products, setProducts] = useState([])
@@ -10,7 +10,7 @@ export default function FeaturedSection() {
 
         async function load() {
             try {
-                const response = await fetch(`${VITE_API_URL}/products/featured`)
+                const response = await fetch(`${BASE_API_URL}/products/featured`)
                 if (!response.ok) {
                     throw new Error("Failed to fetch products")
                 }
