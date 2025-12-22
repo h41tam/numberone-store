@@ -65,8 +65,13 @@ return [
         
         'mongodb' => [
             'driver'   => 'mongodb',
-            'dsn'      => env('DB_URI'),
+            'host'     => env('DB_HOST'),
             'database' => env('DB_DATABASE'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+            'options'  => [
+                'database' => 'admin'
+            ],
         ],
 
         'mariadb' => [
