@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
 import API_BASE_URL from "@/lib/api"
 
-const API_BASE = API_BASE_URL
-
 export default function Admin() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -38,7 +36,7 @@ export default function Admin() {
     async function loadProducts() {
       setLoadingProducts(true)
       try {
-        const response = await fetch(`${API_BASE}/products`)
+        const response = await fetch(`${API_BASE_URL}/products`)
         if (!response.ok) {
           throw new Error("Failed to load products")
         }
@@ -62,7 +60,7 @@ export default function Admin() {
     async function loadStories() {
       setLoadingStories(true)
       try {
-        const response = await fetch(`${API_BASE}/story-videos`)
+        const response = await fetch(`${API_BASE_URL}/story-videos`)
         if (!response.ok) {
           throw new Error("Failed to load story videos")
         }
@@ -88,7 +86,7 @@ export default function Admin() {
     setCheckingAuth(true)
 
     try {
-      const response = await fetch(`${API_BASE}/admin/ping`, {
+      const response = await fetch(`${API_BASE_URL}/admin/ping`, {
         headers: {
           Authorization: authHeader(),
         },
@@ -141,7 +139,7 @@ export default function Admin() {
         throw new Error("Vous ne pouvez sélectionner que 4 produits en vedette.")
       }
 
-      const url = isEditing ? `${API_BASE}/products/${editingId}` : `${API_BASE}/products`
+      const url = isEditing ? `${API_BASE_URL}/products/${editingId}` : `${API_BASE_URL}/products`
       const method = isEditing ? "PUT" : "POST"
 
       const response = await fetch(url, {
@@ -198,7 +196,7 @@ export default function Admin() {
     }
 
     try {
-      const response = await fetch(`${API_BASE}/products/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/products/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: authHeader(),
@@ -270,7 +268,7 @@ export default function Admin() {
     }
 
     try {
-      const response = await fetch(`${API_BASE}/story-videos`, {
+      const response = await fetch(`${API_BASE_URL}/story-videos`, {
         method: "POST",
         headers: {
           Authorization: authHeader(),
@@ -292,7 +290,7 @@ export default function Admin() {
         productId: "",
         video: null,
       })
-      const refresh = await fetch(`${API_BASE}/story-videos`)
+      const refresh = await fetch(`${API_BASE_URL}/story-videos`)
       if (refresh.ok) {
         const data = await refresh.json()
         setStoryVideos(Array.isArray(data) ? data : [])
@@ -312,7 +310,7 @@ export default function Admin() {
     }
 
     try {
-      const response = await fetch(`${API_BASE}/story-videos/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/story-videos/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: authHeader(),
