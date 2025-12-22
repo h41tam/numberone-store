@@ -5,6 +5,13 @@ use App\Http\Controllers\StoryVideoController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/test', function () {
+    return response()->json([
+        'status' => 'ok',
+        'app' => config('app.name'),
+    ]);
+});
+
 Route::get('/db-test', function () {
     try {
         DB::connection('mongodb')->command(['ping' => 1]);
