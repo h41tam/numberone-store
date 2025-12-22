@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react"
+import { API_BASE_URL } from "../config"
 
 export default function ProductStory() {
     const [entries, setEntries] = useState([])

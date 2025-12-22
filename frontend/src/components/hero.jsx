@@ -1,9 +1,31 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react"
+import { API_BASE_URL } from "../config"
+
+const PLACEHOLDER_PRODUCTS = [
+    {
+        id: "placeholder-1",
+        name: "Collection Printemps",
+        image: "/placeholder.svg",
+        is_featured: true
+    },
+    {
+        id: "placeholder-2",
+        name: "Style Urbain",
+        image: "/placeholder.svg",
+        is_featured: true
+    },
+    {
+        id: "placeholder-3",
+        name: "Elegance Classique",
+        image: "/placeholder.svg",
+        is_featured: true
+    }
+]
 
 export default function Hero() {
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState(PLACEHOLDER_PRODUCTS)
     const [current, setCurrent] = useState(0)
 
     useEffect(() => {
@@ -16,7 +38,7 @@ export default function Hero() {
                     throw new Error("Failed to fetch products")
                 }
                 const data = await response.json()
-                if (!ignore && Array.isArray(data)) {
+                if (!ignore && Array.isArray(data) && data.length > 0) {
                     setProducts(data)
                 }
             } catch (error) {
