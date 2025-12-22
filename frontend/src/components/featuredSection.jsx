@@ -9,7 +9,7 @@ export default function FeaturedSection() {
 
         async function load() {
             try {
-                const response = await fetch("http://localhost:8000/api/products/featured")
+                const response = await fetch(`${API_BASE_URL}/products/featured`)
                 if (!response.ok) {
                     throw new Error("Failed to fetch products")
                 }

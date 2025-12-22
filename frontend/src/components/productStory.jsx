@@ -7,7 +7,7 @@ export default function ProductStory() {
 
     useEffect(() => {
         async function load() {
-            const response = await fetch("http://localhost:8000/api/story-videos")
+            const response = await fetch(`${API_BASE_URL}/story-videos`)
             if (!response.ok) {
                 return
             }

@@ -50,7 +50,7 @@ export default function Collection() {
 
     async function loadFilters() {
       try {
-        const response = await fetch("http://localhost:8000/api/products/filters")
+        const response = await fetch(`${API_BASE_URL}/products/filters`)
         if (!response.ok) {
           return
         }
