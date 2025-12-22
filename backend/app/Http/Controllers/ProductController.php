@@ -92,8 +92,8 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('products', 'public');
-            $data['image'] = $path;
+            $upload = cloudinaryUpload($request->file('image'));
+            $data['image'] = $upload['secure_url'];
         }
 
         if (isset($data['colors']) && is_string($data['colors'])) {
@@ -184,7 +184,7 @@ class ProductController extends Controller
             'id' => $product->id,
             'name' => $product->name,
             'price' => $product->price,
-            'image' => $this->imageUrl($product->image),
+            'image' => $product->image,
             'description' => $product->description,
             'colors' => $product->colors,
             'sizes' => $product->sizes,

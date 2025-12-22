@@ -29,6 +29,19 @@ Route::get('/db-test', function () {
     }
 });
 
+Route::get('/debug-config', function () {
+    $config = config('database.connections.mongodb');
+    // Hide credentials
+    if (isset($config['dsn'])) {
+        $config['dsn'] = 'HIDDEN';
+    }
+    return response()->json([
+        'config' => $config,
+        'env_db_host_set' => !empty(env('DB_HOST')),
+        'env_db_uri_set' => !empty(env('DB_URI')),
+    ]);
+});
+
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/featured', [ProductController::class, 'featured']);
 Route::get('/products/filters', [ProductController::class, 'filters']);
