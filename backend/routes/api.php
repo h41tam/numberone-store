@@ -35,10 +35,22 @@ Route::get('/debug-config', function () {
     if (isset($config['dsn'])) {
         $config['dsn'] = 'HIDDEN';
     }
+    
+    // Get all env keys (not values) for debugging
+    $envKeys = array_keys($_ENV);
+    $serverKeys = array_keys($_SERVER);
+    $allKeys = array_unique(array_merge($envKeys, $serverKeys));
+    sort($allKeys);
+
     return response()->json([
         'config' => $config,
-        'env_db_host_set' => !empty(env('DB_HOST')),
-        'env_db_uri_set' => !empty(env('DB_URI')),
+        'env_vars_set' => [
+            'DB_HOST' => !empty(env('DB_HOST')),
+            'DB_URI' => !empty(env('DB_URI')),
+            'MONGODB_URI' => !empty(env('MONGODB_URI')),
+            'DB_CONNECTION' => env('DB_CONNECTION'),
+        ],
+        'available_env_keys' => $allKeys,
     ]);
 });
 

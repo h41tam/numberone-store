@@ -65,8 +65,8 @@ return [
         
         'mongodb' => [
             'driver'   => 'mongodb',
-            'dsn'      => env('DB_URI', env('DB_HOST')),
-            'host'     => env('DB_HOST'),
+            'dsn'      => env('DB_URI', env('DB_HOST', env('MONGODB_URI'))),
+            'host'     => env('DB_HOST', env('MONGODB_URI')),
             'port'     => env('DB_PORT', 27017),
             'database' => env('DB_DATABASE', 'numberone-store'),
             'username' => env('DB_USERNAME'),
