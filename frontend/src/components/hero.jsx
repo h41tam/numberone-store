@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react"
+import API_BASE_URL from "@/lib/api"
 
 export default function Hero() {
     const [products, setProducts] = useState([])

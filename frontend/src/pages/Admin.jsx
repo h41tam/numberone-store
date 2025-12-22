@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { API_BASE_URL } from "../config"
+import API_BASE_URL from "@/lib/api"
 
 const API_BASE = API_BASE_URL
 

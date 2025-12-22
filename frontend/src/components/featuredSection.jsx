@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import ProductCard from "./productCard"
+import API_BASE_URL from "@/lib/api"
 
 export default function FeaturedSection() {
     const [products, setProducts] = useState([])

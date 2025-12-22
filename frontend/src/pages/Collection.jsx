@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import ProductCard from "../components/productCard"
+import API_BASE_URL from "@/lib/api"
 
 export default function Collection() {
   const [productsState, setProductsState] = useState([])
