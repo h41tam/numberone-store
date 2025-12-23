@@ -50,7 +50,7 @@ export default function Cart() {
                 <div className="flex gap-4 items-center">
                   <img src={i.image} alt={i.name} className="w-24 h-24 rounded-lg object-cover border border-glass" />
                   <div className="flex-1">
-                    <p className="text-3xl font-bold tracking-widest text-background font-cinzel-decorative">{i.name}</p>
+                    <p className="text-xl font-bold tracking-widest text-background font-cinzel-decorative">{i.name}</p>
                     <p className="text-md font-semibold tracking-wide text-background">{i.category}</p>
                     <p className="text-sm text-background font-medium">Stock: {i.stock}</p>
                   </div>
