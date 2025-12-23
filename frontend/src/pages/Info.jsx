@@ -69,7 +69,7 @@ export default function Info() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-secondary/40 rounded-2xl p-8 text-center hover:cursor-pointer group hover:bg-foreground/50 duration-700 transition-colors">
+            <div className="bg-glass rounded-2xl p-8 text-center hover:cursor-pointer group hover:bg-foreground/80 duration-500 transition-colors">
               <span className="text-4xl font-light text-primary font-ghrathe group-hover:text-background">
                 01
               </span>
@@ -85,7 +85,7 @@ export default function Info() {
               </p>
             </div>
 
-            <div className="bg-secondary/40 rounded-2xl p-8 text-center hover:cursor-pointer group hover:bg-foreground/50 duration-700 transition-colors">
+            <div className="bg-glass rounded-2xl p-8 text-center hover:cursor-pointer group hover:bg-foreground/80 duration-500 transition-colors">
               <span className="text-4xl font-light text-primary font-ghrathe group-hover:text-background">
                 02
               </span>
@@ -101,7 +101,7 @@ export default function Info() {
               </p>
             </div>
 
-            <div className="bg-secondary/40 rounded-2xl p-8 text-center hover:cursor-pointer group hover:bg-foreground/50 duration-700 transition-colors">
+            <div className="bg-glass rounded-2xl p-8 text-center hover:cursor-pointer group hover:bg-foreground/80 duration-500 transition-colors">
               <span className="text-4xl font-light text-primary font-ghrathe group-hover:text-background">
                 03
               </span>

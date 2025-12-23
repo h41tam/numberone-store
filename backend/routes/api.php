@@ -99,6 +99,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{id}', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+    Route::post('/products/featured-set', [ProductController::class, 'setFeatured']);
 
     Route::post('/story-videos', [StoryVideoController::class, 'store']);
     Route::delete('/story-videos/{id}', [StoryVideoController::class, 'destroy']);

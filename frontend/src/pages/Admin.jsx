@@ -29,6 +29,7 @@ export default function Admin() {
   const [editingId, setEditingId] = useState(null)
   const [storyVideos, setStoryVideos] = useState([])
   const [loadingStories, setLoadingStories] = useState(false)
+  const [featuredSelection, setFeaturedSelection] = useState([])
 
   const isEditing = editingId !== null
 
@@ -42,6 +43,8 @@ export default function Admin() {
         }
         const data = await response.json()
         setProducts(Array.isArray(data) ? data : [])
+        const preselected = (Array.isArray(data) ? data : []).filter((p) => p.is_featured).map((p) => p.id).slice(0, 4)
+        setFeaturedSelection(preselected)
       } catch {
         setProducts([])
       } finally {
@@ -332,6 +335,51 @@ export default function Admin() {
     }
   }
 
+  async function handleSaveFeatured(e) {
+    e.preventDefault()
+    setMessage("")
+    setError("")
+    if (!isAuthenticated) {
+      setError("Veuillez d’abord vous connecter en tant qu’admin.")
+      return
+    }
+    if (!Array.isArray(featuredSelection) || featuredSelection.length === 0) {
+      setError("Sélectionnez au moins un produit (max 4).")
+      return
+    }
+    if (featuredSelection.length > 4) {
+      setError("Vous ne pouvez sélectionner que 4 produits.")
+      return
+    }
+    try {
+      const response = await fetch(`${API_BASE_URL}/products/featured-set`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authHeader(),
+        },
+        body: JSON.stringify({ ids: featuredSelection }),
+      })
+      if (response.status === 401) {
+        throw new Error("Bad admin credentials")
+      }
+      if (!response.ok) {
+        throw new Error("Failed to save featured selection")
+      }
+      const data = await response.json()
+      const updatedIds = Array.isArray(data.updated) ? data.updated.map((p) => p.id) : []
+      setProducts((prev) =>
+        prev.map((p) => ({
+          ...p,
+          is_featured: updatedIds.includes(p.id),
+        })),
+      )
+      setMessage("Thème de la semaine mis à jour.")
+    } catch (err) {
+      setError(err.message || "Erreur lors de la mise à jour du thème de la semaine.")
+    }
+  }
+
   return (
     <section className="pt-28 pb-20 bg-scnd-gradient min-h-screen">
       <div className="max-w-4xl mx-auto px-6">
@@ -525,8 +573,43 @@ export default function Admin() {
         {isAuthenticated && (
           <div className="mt-10 space-y-8">
             <div className="bg-glass rounded-2xl border border-glass p-6">
+              <h2 className="text-xl font-rodfat mb-2">Thème de la semaine (sélectionnez 4)</h2>
+              <form onSubmit={handleSaveFeatured} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {products.map((p) => {
+                    const checked = featuredSelection.includes(p.id)
+                    return (
+                      <label key={p.id} className="flex items-center gap-3 border border-glass rounded-xl p-3">
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={(e) => {
+                            const c = e.target.checked
+                            setFeaturedSelection((prev) => {
+                              const set = new Set(prev)
+                              if (c) {
+                                if (set.size >= 4) return prev
+                                set.add(p.id)
+                              } else {
+                                set.delete(p.id)
+                              }
+                              return Array.from(set)
+                            })
+                          }}
+                        />
+                        <span className="flex-1">{p.name}</span>
+                      </label>
+                    )
+                  })}
+                </div>
+                <button type="submit" className="w-full mt-2 py-3 rounded-xl bg-gold-gradient text-background font-rodfat">
+                  Enregistrer le thème de la semaine
+                </button>
+              </form>
+            </div>
+            <div className="bg-glass rounded-2xl border border-glass p-6">
               <h2 className="text-xl font-rodfat mb-4">
-                Produits existants
+                Vidéos de story
               </h2>
               {products.length === 0 ? (
                 <p className="text-sm text-foreground/60">

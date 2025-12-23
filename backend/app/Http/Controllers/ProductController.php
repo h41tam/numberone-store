@@ -80,6 +80,45 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    public function setFeatured(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'ids' => ['required', 'array', 'min:1', 'max:4'],
+            'ids.*' => ['string'],
+        ]);
+
+        Product::query()->update(['is_featured' => false]);
+
+        $ids = $validated['ids'];
+        foreach ($ids as $id) {
+            $product = Product::query()->find($id);
+            if ($product) {
+                $product->is_featured = true;
+                $product->save();
+            }
+        }
+
+        $selected = Product::query()->where('is_featured', true)->get()->map(function (Product $p) {
+            return [
+                'id' => $p->id,
+                'name' => $p->name,
+                'price' => $p->price,
+                'image' => $p->image,
+                'description' => $p->description,
+                'colors' => $p->colors,
+                'sizes' => $p->sizes,
+                'sex' => $p->sex,
+                'stock' => $p->stock,
+                'category' => $p->category,
+                'is_featured' => $p->is_featured,
+            ];
+        });
+
+        return response()->json([
+            'updated' => $selected,
+        ]);
+    }
+
     public function show(string $id): JsonResponse
     {
         $product = Product::query()->find($id);

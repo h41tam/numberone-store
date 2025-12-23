@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react"
 import API_BASE_URL from "@/lib/api"
 import AddToCartModal from "./addToCartModal"
@@ -8,6 +8,7 @@ export default function ProductStory() {
     const [entries, setEntries] = useState([])
     const [current, setCurrent] = useState(0)
     const [open, setOpen] = useState(false)
+    const videoRef = useRef(null)
 
     useEffect(() => {
         async function load() {
@@ -39,14 +40,14 @@ export default function ProductStory() {
     const hasMultiple = entries.length > 1
 
     const next = () => {
-        if (entries.length === 0) {
+        if (entries.length === 0 || open) {
             return
         }
         setCurrent((c) => (c + 1) % entries.length)
     }
 
     const prev = () => {
-        if (entries.length === 0) {
+        if (entries.length === 0 || open) {
             return
         }
         setCurrent((c) => (c - 1 + entries.length) % entries.length)
@@ -60,10 +61,13 @@ export default function ProductStory() {
                 <div className="flex flex-col items-center gap-3">
                     <div className="w-full max-w-[260px] sm:max-w-[240px] lg:max-w-[280px] aspect-[9/16] mx-auto lg:mx-0 rounded-2xl overflow-hidden bg-glass border border-glass">
                         <video
+                            ref={videoRef}
                             key={currentEntry.id}
                             src={currentEntry.video_url}
                             autoPlay
                             muted
+                            controls
+                            playsInline
                             className="w-full h-full object-cover"
                             onEnded={next}
                         />
@@ -98,7 +102,12 @@ export default function ProductStory() {
                             <h3 className="text-2xl font-cinzel-decorative mb-2">{stripAccents(product.name)}</h3>
                             <p className="text-foreground/70 mb-4 text-sm sm:text-base">{stripAccents(product.description)}</p>
                             <p className="text-xl text-primary mb-6">{product.price} MAD</p>
-                            <button className="w-full sm:w-auto px-6 py-3 bg-gold-gradient text-background rounded-xl font-rodfat tracking-wide" onClick={() => setOpen(true)}>
+                            <button className="w-full sm:w-auto px-6 py-3 bg-gold-gradient text-background rounded-xl font-rodfat tracking-wide" onClick={() => {
+                                setOpen(true)
+                                if (videoRef.current) {
+                                    try { videoRef.current.pause() } catch {}
+                                }
+                            }}>
                                 Ajouter au panier
                             </button>
                         </div>
