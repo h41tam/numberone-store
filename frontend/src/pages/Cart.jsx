@@ -40,22 +40,22 @@ export default function Cart() {
   }
 
   return (
-    <section ref={ref} className="min-h-screen pt-24 px-6 bg-dark-gradient">
+    <section ref={ref} className="min-h-screen pt-24 px-4 sm:px-6 bg-dark-gradient overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl text-center font-rodfat">Panier</h1>
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 mt-8">
           <div ref={listRef} className="space-y-4">
             {cartItems.map((i) => (
-              <div key={i.cartId} className="bg-gold-gradient rounded-xl p-4 border border-glass cart-line">
-                <div className="flex gap-4 items-center">
-                  <img src={i.image} alt={i.name} className="w-24 h-24 rounded-lg object-cover border border-glass" />
-                  <div className="flex-1">
-                    <p className="text-xl font-bold tracking-widest text-background font-cinzel-decorative">{i.name}</p>
-                    <p className="text-md font-semibold tracking-wide text-background">{i.category}</p>
+              <div key={i.cartId} className="bg-gold-gradient rounded-xl p-4 border border-glass cart-line w-full">
+                <div className="flex items-center justify-between gap-4 flex-wrap">
+                  <img src={i.image} alt={i.name} className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover border border-glass flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xl font-bold tracking-widest text-background font-cinzel-decorative break-words">{i.name}</p>
+                    <p className="text-md font-semibold tracking-wide text-background break-words">{i.category}</p>
                     <p className="text-sm text-background font-medium">Stock: {i.stock}</p>
                   </div>
-                  <button onClick={() => removeItem(i.cartId)} className="px-1 py-1 rounded-full text-background hover:bg-[#780606] hover:text-foreground transition-colors duration-400 border border-glass">
-                    <Trash size={24} />
+                  <button onClick={() => removeItem(i.cartId)} className="px-3 py-2 rounded-xl bg-black/40 text-background hover:bg-[#780606] hover:text-foreground transition-colors duration-300 border border-glass">
+                    <Trash size={20} />
                   </button>
                 </div>
                 <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
