@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoryVideoController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -71,10 +72,24 @@ Route::get('/debug-config', function () {
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/featured', [ProductController::class, 'featured']);
+Route::get('/products/latest', [ProductController::class, 'latest']);
 Route::get('/products/filters', [ProductController::class, 'filters']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::get('/story-videos', [StoryVideoController::class, 'index']);
+
+Route::post('/checkout', [CheckoutController::class, 'checkout']);
+
+Route::get('/debug-products', function () {
+    $db = config('database.connections.mongodb.database');
+    $envDb = env('DB_DATABASE');
+    $count = \App\Models\Product::query()->count();
+    return response()->json([
+        'database_config' => $db,
+        'database_env' => $envDb,
+        'product_count' => $count,
+    ]);
+});
 
 Route::middleware('admin')->group(function () {
     Route::get('/admin/ping', function () {

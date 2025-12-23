@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
 import {
-    XLogo, Mailbox, FacebookLogo, InstagramLogo,
-    MapPinArea, CoatHanger, Phone, Info, HouseLine, ShoppingCart
-} from "@phosphor-icons/react"
+    Mailbox, FacebookLogo, InstagramLogo,
+    MapPinArea, CoatHanger, Phone, Info, HouseLine, ShoppingCart, 
+    TiktokLogo } from "@phosphor-icons/react"
 
 function FooterExternal({ href, icon, label }) {
     return (
@@ -68,23 +68,23 @@ export default function Footer() {
                     <div>
                         <h4 className="text-xl font-bold font-rodfat text-foreground/90 mb-4 text-center">Reseaux Sociaux</h4>
                         <div className="flex gap-4 justify-center">
-                            <Link to="https://www.instagram.com/numberone.store/" target="_blank" rel="noopener noreferrer">
+                            <Link to="https://www.instagram.com/number_one_casablanca/" target="_blank" rel="noopener noreferrer">
                                 <InstagramLogo size={30} className="text-muted-foreground hover:scale-105 hover:text-primary transition-colors duration-400" />
                             </Link>
-                            <Link to="https://www.facebook.com/numberone.store/" target="_blank" rel="noopener noreferrer">
+                            <Link to="https://www.facebook.com/profile.php?id=61552228353888/" target="_blank" rel="noopener noreferrer">
                                 <FacebookLogo size={30} className="text-muted-foreground hover:scale-105 hover:text-primary transition-colors duration-400" />
                             </Link>
-                            <Link to="https://www.x.com/numberone.store/" target="_blank" rel="noopener noreferrer">
-                                <XLogo size={30} className="text-muted-foreground hover:scale-105 hover:text-primary transition-colors duration-400" />
+                            <Link to="https://www.tiktok.com/@number1casablanca" target="_blank" rel="noopener noreferrer">
+                                <TiktokLogo size={30} className="text-muted-foreground hover:scale-105 hover:text-primary transition-colors duration-400" />
                             </Link>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex justify-center border-t font-cinzel border-glass pt-5 text-center text-sm text-muted-foreground">
-                    © 2025 Number One — All rights reserved.
+                <div className="flex justify-center border-t font-cinzel border-glass pt-5 text-center text-md text-muted-foreground">
+                    © 2016-2025 Number One — All rights reserved.
                     <div className="bg-foreground w-[1px] ml-8 mr-2 inline-block"></div>
-                    <Link to="/admin" rel="noopener noreferrer" className="font-cinzel-decorative text-foreground hover:text-primary">
+                    <Link to="/admin" rel="noopener noreferrer" className="mt-3 lg:mt-0 font-cinzel-decorative text-foreground hover:text-primary">
                         Admin Only
                     </Link>
                 </div>

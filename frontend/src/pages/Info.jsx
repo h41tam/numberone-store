@@ -1,8 +1,12 @@
 import StoreMap from "../components/storeMap.jsx"
+import { usePageEnter, useStagger } from "@/lib/anim"
+import { useRef } from "react"
 
 export default function Info() {
+  const ref = usePageEnter()
+  const gridRef = useRef(null)
   return (
-    <div className="pt-24 pb-16 bg-dark-gradient min-h-screen">
+    <div ref={ref} className="pt-24 pb-16 bg-dark-gradient min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-20">
         <div className="mb-12 text-center">
           <h1 className="text-5xl font-semibold font-cinzel-decorative tracking-tight mb-4">
@@ -24,10 +28,10 @@ export default function Info() {
         </div>
 
         {/* About pillars */}
-        <div className="mb-16">
+        <div ref={gridRef} className="mb-16">
           <div className="flex justify-center">
             <div className="w-full max-w-3xl bg-secondary/40 rounded-3xl p-6 text-center space-y-6">
-              <div>
+              <div className="reveal">
                 <h3 className="text-primary font-boston-caps text-2xl font-semibold mb-2">
                   Qualite
                 </h3>
@@ -36,7 +40,7 @@ export default function Info() {
                   de garantir les normes les plus elevees.
                 </p>
               </div>
-              <div>
+              <div className="reveal">
                 <h3 className="text-primary font-boston-caps text-2xl font-semibold mb-2">
                   Sustainabilite
                 </h3>
@@ -45,7 +49,7 @@ export default function Info() {
                   approvisionnons en materiaux de maniere responsable.
                 </p>
               </div>
-              <div>
+              <div className="reveal">
                 <h3 className="text-primary font-boston-caps text-2xl font-semibold mb-2">
                   Service
                 </h3>

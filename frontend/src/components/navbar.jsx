@@ -75,9 +75,9 @@ export default function Navbar() {
                             alt="logo"
                             className="w-14 h-15 object-contain"
                         />
-                        <span className="hidden md:inline-block align-middle relative text-foreground">
-                            <span className="absolute left-[-12px] top-1/2 -translate-y-1/2 opacity-0 transition-all duration-300 group-hover:left-0 group-hover:opacity-100 text-4xl font-rodfat">N</span>
-                            <span className="absolute left-[-12px] top-1/2 ml-1 mt-1 -translate-y-1/2 opacity-0 transition-all duration-300 group-hover:left-6 group-hover:opacity-100 text-2xl font-supercrawler">umberone</span>
+                        <span className="md:inline-block align-middle relative text-foreground">
+                            <span className="text-4xl font-rodfat">N</span>
+                            <span className="text-2xl font-supercrawler">umberone</span>
                         </span>
                     </Link>
 
@@ -102,10 +102,10 @@ export default function Navbar() {
 
                     {/* Cart + Mobile */}
                     <div className="flex items-center gap-4">
-                        <Link to="/cart" className="relative text-foreground hover:text-primary duration-500 transition-colors">
+                        <Link to="/cart" className="relative group text-foreground hover:text-primary duration-500 transition-colors">
                             <ShoppingCart size={30} />
                             {cartCount > 0 && (
-                                <span className="absolute -top-2 -right-2 bg-primary font-rodfat text-primary-foreground w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold">
+                                <span className="absolute -top-2 -right-2 bg-foreground group-hover:bg-primary font-rodfat text-background w-5 h-5 rounded-full flex items-center justify-center text-xs transition-colors duration-500 font-bold">
                                     {cartCount}
                                 </span>
                             )}

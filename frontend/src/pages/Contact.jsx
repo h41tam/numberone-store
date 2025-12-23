@@ -1,7 +1,10 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { PhoneCall, EnvelopeSimple, MapPinArea } from "@phosphor-icons/react"
+import { usePageEnter, useStagger } from "@/lib/anim"
 
 export default function Contact() {
+  const ref = usePageEnter()
+  const gridRef = useRef(null)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,8 +29,10 @@ export default function Contact() {
     setTimeout(() => setSubmitted(false), 3000)
   }
 
+  useStagger(gridRef, ".reveal")
+
   return (
-    <div className="pt-24 pb-12 bg-scnd-gradient min-h-screen">
+    <div ref={ref} className="pt-24 pb-12 bg-scnd-gradient min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-20">
         <div className="mb-12 text-center">
           <h1 className="text-5xl font-semibold font-cinzel-decorative tracking-tight mb-4">
@@ -38,8 +43,8 @@ export default function Contact() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
-          <div className="space-y-8">
+        <div ref={gridRef} className="grid grid-cols-1 lg:grid-cols-2 gap-14">
+          <div className="space-y-8 reveal">
             <div>
               <h2 className="text-2xl text-primary font-cinzel font-semibold mb-6">
                 Nos Informations
@@ -118,7 +123,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="bg-secondary/40 rounded-4xl p-8 max-w-auto">
+          <div className="bg-secondary/40 rounded-4xl p-8 max-w-auto reveal">
             <h2 className="text-2xl font-cinzel font-semibold mb-6">
               E-mailez Nous Directement
             </h2>

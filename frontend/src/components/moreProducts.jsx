@@ -11,7 +11,7 @@ export default function MoreProducts() {
 
         async function load() {
             try {
-                const response = await fetch(`${API_BASE_URL}/products`)
+                const response = await fetch(`${API_BASE_URL}/products/latest`)
                 if (!response.ok) {
                     throw new Error("Failed to fetch products")
                 }
@@ -31,7 +31,7 @@ export default function MoreProducts() {
         }
     }, [])
 
-    const moreProducts = products.filter((p) => !p.is_featured).slice(0, 4)
+    const moreProducts = products.slice(0, 4)
 
     return (
         <section className="py-16 bg-scnd-gradient">

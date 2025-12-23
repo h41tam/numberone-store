@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import ProductCard from "../components/productCard"
 import API_BASE_URL from "@/lib/api"
+import { usePageEnter, useStagger } from "@/lib/anim"
 
 export default function Collection() {
   const [productsState, setProductsState] = useState([])
@@ -11,6 +12,8 @@ export default function Collection() {
   const [error, setError] = useState(null)
   const [categories, setCategories] = useState([])
   const [sexOptions, setSexOptions] = useState([])
+  const ref = usePageEnter()
+  const gridRef = useRef(null)
 
   useEffect(() => {
     let ignore = false
@@ -86,8 +89,10 @@ export default function Collection() {
     })
   }, [productsState, search, category, sex])
 
+  useStagger(gridRef, ".card-item")
+
   return (
-    <section className="pt-28 pb-20 bg-scnd-gradient">
+    <section ref={ref} className="pt-28 pb-20 bg-scnd-gradient">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* HEADER */}
@@ -153,9 +158,11 @@ export default function Collection() {
 
         {/* PRODUCTS GRID */}
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <div key={product.id} className="card-item">
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
         ) : (

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useMemo, useState } from "react"
 
 const CartContext = createContext()
 
@@ -7,8 +7,48 @@ export function CartProvider({ children }) {
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
+  const addItem = (product, options = {}) => {
+    const id = crypto.randomUUID()
+    const colors = Array.isArray(product.colors) ? product.colors : []
+    const sizes = Array.isArray(product.sizes) ? product.sizes : []
+    const item = {
+      cartId: id,
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      colors,
+      sizes,
+      selectedColor: options.selectedColor || colors[0] || null,
+      selectedSize: options.selectedSize || sizes[0] || null,
+      quantity: options.quantity || 1,
+      stock: product.stock,
+      category: product.category,
+      sex: product.sex,
+      description: product.description,
+    }
+    setCartItems((prev) => [...prev, item])
+  }
+
+  const removeItem = (cartId) => {
+    setCartItems((prev) => prev.filter((i) => i.cartId !== cartId))
+  }
+
+  const updateItem = (cartId, partial) => {
+    setCartItems((prev) =>
+      prev.map((i) => (i.cartId === cartId ? { ...i, ...partial } : i)),
+    )
+  }
+
+  const clearCart = () => setCartItems([])
+
+  const value = useMemo(
+    () => ({ cartItems, setCartItems, cartCount, addItem, removeItem, updateItem, clearCart }),
+    [cartItems, cartCount],
+  )
+
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems, cartCount }}>
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   )

@@ -8,11 +8,13 @@ import Cart from "./pages/Cart"
 import Admin from "./pages/Admin"
 import './styles/index.css'
 import { Routes, Route } from "react-router-dom"
+import ScrollToTop from "./components/scrollToTop"
 
 function App() {
 
   return (
     <>
+      <ScrollToTop />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

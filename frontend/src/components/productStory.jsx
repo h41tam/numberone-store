@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react"
 import API_BASE_URL from "@/lib/api"
+import AddToCartModal from "./addToCartModal"
+import { stripAccents } from "@/lib/text"
 
 export default function ProductStory() {
     const [entries, setEntries] = useState([])
     const [current, setCurrent] = useState(0)
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
         async function load() {
@@ -92,18 +95,19 @@ export default function ProductStory() {
                 <div className="bg-glass p-6 sm:p-8 rounded-2xl border border-glass w-full max-w-xl mx-auto lg:mx-0">
                     <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-stretch">
                         <div className="flex-1">
-                            <h3 className="text-2xl font-cinzel-decorative mb-2">{product.name}</h3>
-                            <p className="text-foreground/70 mb-4 text-sm sm:text-base">{product.description}</p>
+                            <h3 className="text-2xl font-cinzel-decorative mb-2">{stripAccents(product.name)}</h3>
+                            <p className="text-foreground/70 mb-4 text-sm sm:text-base">{stripAccents(product.description)}</p>
                             <p className="text-xl text-primary mb-6">{product.price} MAD</p>
-                            <button className="w-full sm:w-auto px-6 py-3 bg-gold-gradient text-background rounded-xl font-rodfat tracking-wide">
+                            <button className="w-full sm:w-auto px-6 py-3 bg-gold-gradient text-background rounded-xl font-rodfat tracking-wide" onClick={() => setOpen(true)}>
                                 Ajouter au panier
                             </button>
                         </div>
                         <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden border border-glass bg-primary/20 flex-shrink-0">
-                            <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                            <img src={product.image} alt={stripAccents(product.name)} className="w-full h-full object-cover" />
                         </div>
                     </div>
                 </div>
+                <AddToCartModal product={product} open={open} onClose={() => setOpen(false)} />
 
             </div>
         </section>

@@ -33,6 +33,33 @@ class ProductController extends Controller
     {
         $products = Product::query()
             ->where('is_featured', true)
+            ->limit(4)
+            ->get()
+            ->map(function (Product $product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'image' => $product->image,
+                    'description' => $product->description,
+                    'colors' => $product->colors,
+                    'sizes' => $product->sizes,
+                    'sex' => $product->sex,
+                    'stock' => $product->stock,
+                    'category' => $product->category,
+                    'is_featured' => $product->is_featured,
+                ];
+            });
+
+        return response()->json($products);
+    }
+
+    public function latest(): JsonResponse
+    {
+        $products = Product::query()
+            ->where('is_featured', '!=', true)
+            ->orderBy('_id', 'desc')
+            ->limit(4)
             ->get()
             ->map(function (Product $product) {
                 return [
