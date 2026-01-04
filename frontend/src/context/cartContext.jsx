@@ -8,6 +8,7 @@ export function CartProvider({ children }) {
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
   const addItem = (product, options = {}) => {
+    if ((product.stock ?? 0) <= 0) return
     const id = crypto.randomUUID()
     const colors = Array.isArray(product.colors) ? product.colors : []
     const sizes = Array.isArray(product.sizes) ? product.sizes : []
@@ -21,7 +22,7 @@ export function CartProvider({ children }) {
       sizes,
       selectedColor: options.selectedColor || colors[0] || null,
       selectedSize: options.selectedSize || sizes[0] || null,
-      quantity: options.quantity || 1,
+      quantity: Math.min(options.quantity || 1, Math.max(1, product.stock || 1)),
       stock: product.stock,
       category: product.category,
       sex: product.sex,
@@ -36,7 +37,14 @@ export function CartProvider({ children }) {
 
   const updateItem = (cartId, partial) => {
     setCartItems((prev) =>
-      prev.map((i) => (i.cartId === cartId ? { ...i, ...partial } : i)),
+      prev.map((i) => {
+        if (i.cartId !== cartId) return i
+        const next = { ...i, ...partial }
+        if (typeof next.quantity === "number") {
+          next.quantity = Math.min(Math.max(1, next.quantity), Math.max(1, next.stock || 1))
+        }
+        return next
+      }),
     )
   }
 

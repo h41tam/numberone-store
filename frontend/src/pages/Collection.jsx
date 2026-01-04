@@ -158,9 +158,9 @@ export default function Collection() {
 
         {/* PRODUCTS GRID */}
         {filteredProducts.length > 0 ? (
-          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-stretch">
             {filteredProducts.map((product) => (
-              <div key={product.id} className="card-item">
+              <div key={product.id} className="card-item h-full">
                 <ProductCard product={product} />
               </div>
             ))}

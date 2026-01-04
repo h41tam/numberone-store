@@ -20,7 +20,7 @@ export default function ProductCard({ product }) {
   }, [])
 
   return (
-    <div ref={cardRef} className="group rounded-2xl overflow-hidden bg-secondary/60 border border-border hover:border-primary hover:bg-gold-gradient transition-colors duration-500">
+    <div ref={cardRef} className="group rounded-2xl overflow-hidden bg-secondary/60 border border-border hover:border-primary hover:bg-gold-gradient transition-colors duration-500 flex flex-col h-full">
 
       {/* IMAGE */}
       <div className="relative overflow-hidden aspect-square">
@@ -44,7 +44,7 @@ export default function ProductCard({ product }) {
       </div>
 
       {/* CONTENT */}
-      <div className="p-5 space-y-3">
+      <div className="p-5 space-y-3 flex-1 flex flex-col">
 
         {/* CATEGORY */}
         <p className="text-sm tracking-widest text-primary group-hover:text-background transition-colors duration-300">
@@ -74,7 +74,7 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* PRICE + CTA */}
-        <div className="flex items-center justify-between pt-4">
+        <div className="flex items-center justify-between pt-4 mt-auto">
 
           <span className="text-xl font-semibold text-primary group-hover:text-background transition-colors duration-300">
             {product.price} MAD

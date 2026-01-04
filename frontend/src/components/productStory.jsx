@@ -102,7 +102,7 @@ export default function ProductStory() {
                             <h3 className="text-2xl font-cinzel-decorative mb-2">{stripAccents(product.name)}</h3>
                             <p className="text-foreground/70 mb-4 text-sm sm:text-base">{stripAccents(product.description)}</p>
                             <p className="text-xl text-primary mb-6">{product.price} MAD</p>
-                            <button className="w-full sm:w-auto px-6 py-3 bg-gold-gradient text-background rounded-xl font-rodfat tracking-wide" onClick={() => {
+                            <button className="w-full sm:w-auto px-6 py-3 bg-gold-gradient text-background rounded-xl font-rodfat tracking-wide disabled:opacity-50" disabled={(product.stock ?? 0) <= 0} onClick={() => {
                                 setOpen(true)
                                 if (videoRef.current) {
                                     try { videoRef.current.pause() } catch {}

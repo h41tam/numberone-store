@@ -22,8 +22,12 @@ export default function AddToCartModal({ product, open, onClose }) {
 
   if (!open) return null
 
+  const maxQty = Math.max(0, Number(product.stock ?? 0))
+  const disabled = maxQty <= 0 || qty < 1 || qty > maxQty
+
   const submit = () => {
-    addItem(product, { selectedColor: color, selectedSize: size, quantity: qty })
+    if (disabled) return
+    addItem(product, { selectedColor: color, selectedSize: size, quantity: Math.min(qty, maxQty) })
     onClose()
   }
 
@@ -58,12 +62,12 @@ export default function AddToCartModal({ product, open, onClose }) {
           </div>
           <div>
             <label className="lg:text-md text-foreground lg:ml-6">Quantité</label>
-            <input type="number" min={1} max={product.stock || 1} value={qty} onChange={(e) => setQty(parseInt(e.target.value || "1"))} className="w-full font-rodfat mt-1 bg-gold-gradient border border-glass text-center rounded-lg px-3 py-[5.1px] lg:py-[5px] outline-none" />
+            <input type="number" min={1} max={Math.max(1, maxQty)} value={qty} onChange={(e) => setQty(parseInt(e.target.value || "1"))} className="w-full font-rodfat mt-1 bg-gold-gradient border border-glass text-center rounded-lg px-3 py-[5.1px] lg:py-[5px] outline-none" />
           </div>
         </div>
         <div className="mt-6 flex items-center justify-end gap-3">
           <button onClick={onClose} className="font-rodfat px-4 py-2 rounded-xl bg-glass text-primary hover:bg-foreground hover:text-background transition-colors duration-300 border border-glass">Annuler</button>
-          <button onClick={submit} className="font-rodfat px-5 py-2 rounded-xl bg-primary text-background hover:bg-foreground hover:text-background transition-colors duration-300 border border-glass">Ajouter</button>
+          <button disabled={disabled} onClick={submit} className="font-rodfat px-5 py-2 rounded-xl bg-primary text-background hover:bg-foreground hover:text-background transition-colors duration-300 border border-glass disabled:opacity-50">Ajouter</button>
         </div>
       </div>
     </div>,
