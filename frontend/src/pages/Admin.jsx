@@ -143,15 +143,40 @@ export default function Admin() {
       }
 
       const url = isEditing ? `${API_BASE_URL}/products/${editingId}` : `${API_BASE_URL}/products`
-      const method = isEditing ? "PUT" : "POST"
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          Authorization: authHeader(),
-        },
-        body: formData,
-      })
+      let response
+      if (isEditing && !productForm.image) {
+        const jsonPayload = {
+          name: productForm.name,
+          price: Number(productForm.price),
+          description: productForm.description,
+          colors: productForm.colors,
+          sizes: productForm.sizes,
+          sex: productForm.sex,
+          stock: Number(productForm.stock),
+          category: productForm.category,
+          is_featured: Boolean(productForm.is_featured),
+        }
+        response = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authHeader(),
+          },
+          body: JSON.stringify(jsonPayload),
+        })
+      } else {
+        const method = "POST"
+        if (isEditing) {
+          formData.append("_method", "PUT")
+        }
+        response = await fetch(url, {
+          method,
+          headers: {
+            Authorization: authHeader(),
+          },
+          body: formData,
+        })
+      }
 
       if (response.status === 401) {
         throw new Error("Bad admin credentials")
