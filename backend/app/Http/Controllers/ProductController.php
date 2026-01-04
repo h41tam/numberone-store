@@ -168,6 +168,13 @@ class ProductController extends Controller
             'is_featured',
         ]);
 
+        if (isset($data['stock'])) {
+            $data['stock'] = (int) $data['stock'];
+        }
+        if (isset($data['price'])) {
+            $data['price'] = (int) $data['price'];
+        }
+
         if ($request->hasFile('image')) {
             try {
                 $upload = cloudinaryUpload($request->file('image'), 'products', 'image');
@@ -272,11 +279,11 @@ class ProductController extends Controller
         }
 
         if (isset($data['colors']) && is_string($data['colors'])) {
-            $data['colors'] = array_values(array_filter(array_map('trim', explode(' ', $data['colors']))));
+            $data['colors'] = array_values(array_filter(array_map('trim', explode(',', $data['colors']))));
         }
 
         if (isset($data['sizes']) && is_string($data['sizes'])) {
-            $data['sizes'] = array_values(array_filter(array_map('trim', explode(' ', $data['sizes']))));
+            $data['sizes'] = array_values(array_filter(array_map('trim', explode(',', $data['sizes']))));
         }
 
         $product->fill($data);
