@@ -44,20 +44,20 @@ export default function ProductCard({ product }) {
       </div>
 
       {/* CONTENT */}
-      <div className="p-5 space-y-3 flex-1 flex flex-col">
+      <div className="p-3 sm:p-5 space-y-2 sm:space-y-3 flex-1 flex flex-col">
 
         {/* CATEGORY */}
-        <p className="text-sm tracking-widest text-primary group-hover:text-background transition-colors duration-300">
+        <p className="text-xs sm:text-sm tracking-widest text-primary group-hover:text-background transition-colors duration-300">
           {stripAccents(product.category)}
         </p>
 
         {/* NAME */}
-        <h3 className="text-xl font-cinzel-decorative font-bold group-hover:text-background transition-colors duration-300">
+        <h3 className="text-base sm:text-xl font-cinzel-decorative font-bold group-hover:text-background transition-colors duration-300">
           {stripAccents(product.name)}
         </h3>
 
         {/* DESCRIPTION */}
-        <p className="text-md text-foreground/70 line-clamp-2 group-hover:text-background transition-colors duration-300">
+        <p className="text-xs sm:text-md text-foreground/70 line-clamp-2 group-hover:text-background transition-colors duration-300">
           {stripAccents(product.description)}
         </p>
 
@@ -74,19 +74,18 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* PRICE + CTA */}
-        <div className="flex items-center justify-between pt-4 mt-auto">
+        <div className="flex items-center justify-between pt-3 sm:pt-4 mt-auto">
 
-          <span className="text-xl font-semibold text-primary group-hover:text-background transition-colors duration-300">
+          <span className="text-lg sm:text-xl font-semibold text-primary group-hover:text-background transition-colors duration-300">
             {product.price} MAD
           </span>
 
           <button
             disabled={product.stock === 0}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-glass bg-gold-gradient text-background 
-            hover:bg-dark-gradient group-hover:border-background hover:text-primary transition-colors duration-300 disabled:opacity-10"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl border border-glass bg-gold-gradient text-background hover:bg-dark-gradient group-hover:border-background hover:text-primary transition-colors duration-300 disabled:opacity-10"
             onClick={() => setOpen(true)}
           >
-            <ShoppingCart size={18} />
+            <ShoppingCart size={16} className="sm:size-[18px]" />
             Ajouter
           </button>
         </div>

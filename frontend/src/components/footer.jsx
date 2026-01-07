@@ -59,8 +59,8 @@ export default function Footer() {
                     <div>
                         <h4 className="text-xl font-bold font-rodfat text-foreground/90 mb-4 text-center">Plus</h4>
                         <div className="space-y-3 font-ghrathe">
-                            <FooterExternal href="mailto:h41tam.business@gmail.com" icon={<Mailbox size={18} />} label="numberone@store.com" />
-                            <FooterExternal href="https://maps.app.goo.gl/U81axV33EifsTBQ1A" icon={<MapPinArea size={18} />} label="Visitez-Nous" />
+                            <FooterExternal href="mailto:numberone@store.com" icon={<Mailbox size={18} />} label="numberone@store.com" />
+                            <FooterExternal href="https://maps.app.goo.gl/teux7MCNNQ7vofEK9" icon={<MapPinArea size={18} />} label="Visitez-Nous" />
                         </div>
                     </div>
 

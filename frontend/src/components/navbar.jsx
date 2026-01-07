@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom"
 import { useState } from "react"
 import { useCart } from "../context/cartContext"
-import image from "../assets/images/logo.png"
 import {
     Info,
     HouseLine,
@@ -68,17 +67,13 @@ export default function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     <Link
                         to="/"
-                        className="flex items-center gap-2 transition-transform duration-500 group"
+                        className="flex items-center gap-2 transition-transform duration-500"
                     >
                         <img
-                            src={image}
+                            src="/images/full-logo.png"
                             alt="logo"
-                            className="w-14 h-15 object-contain"
+                            className="h-28 w-auto object-contain absolute top-1/2 -translate-y-1/2"
                         />
-                        <span className="md:inline-block align-middle relative text-foreground">
-                            <span className="text-4xl font-rodfat">N</span>
-                            <span className="text-2xl font-supercrawler">umberone</span>
-                        </span>
                     </Link>
 
                     {/* Desktop Nav */}

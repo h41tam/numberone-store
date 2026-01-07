@@ -40,7 +40,7 @@ export default function FeaturedSection() {
                     <h2 className="text-4xl font-cinzel-decorative mb-4">
                         Collection de la semaine
                     </h2>
-                    <p className="text-foreground/70 font-cinzel max-w-xl mx-auto">
+                    <p className="text-foreground/70 max-w-xl mx-auto">
                         Des pièces sélectionnées pour un style élégant et moderne.
                     </p>
                 </div>
