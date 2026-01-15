@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Controllers\SettingsController;
 
 class CheckoutController extends Controller
 {
@@ -35,9 +36,11 @@ class CheckoutController extends Controller
             $lines[] = $product->name.' x'.$qty.' ('.$product->price.' MAD)'.($line['color'] ? ' ['.$line['color'].']' : '').($line['size'] ? ' ['.$line['size'].']' : '');
         }
 
-        $setting = Setting::where('key', 'whatsapp_number')->first();
-        $business = $setting ? $setting->value : env('WHATSAPP_BUSINESS_NUMBER');
-        
+        $business = SettingsController::get('whatsapp_business_number');
+        if (! $business) {
+            $business = (string) env('WHATSAPP_BUSINESS_NUMBER', '');
+        }
+        $business = preg_replace('/\D+/', '', $business) ?? '';
         if (! $business) {
             return response()->json(['message' => 'WhatsApp business number not configured'], 500);
         }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoryVideoController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -80,6 +81,8 @@ Route::get('/story-videos', [StoryVideoController::class, 'index']);
 
 Route::post('/checkout', [CheckoutController::class, 'checkout']);
 
+Route::get('/settings', [SettingsController::class, 'publicSettings']);
+
 Route::get('/debug-products', function () {
     $db = config('database.connections.mongodb.database');
     $envDb = env('DB_DATABASE');
@@ -96,6 +99,9 @@ Route::middleware('admin')->group(function () {
         return response()->json(['ok' => true]);
     });
 
+    Route::get('/admin/settings', [SettingsController::class, 'show']);
+    Route::put('/admin/settings', [SettingsController::class, 'update']);
+
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{id}', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
@@ -103,6 +109,4 @@ Route::middleware('admin')->group(function () {
 
     Route::post('/story-videos', [StoryVideoController::class, 'store']);
     Route::delete('/story-videos/{id}', [StoryVideoController::class, 'destroy']);
-
-    Route::post('/settings/whatsapp', [SettingController::class, 'updateWhatsapp']);
 });
