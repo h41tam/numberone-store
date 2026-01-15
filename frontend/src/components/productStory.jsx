@@ -105,7 +105,7 @@ export default function ProductStory() {
                             <button className="w-full sm:w-auto px-6 py-3 bg-gold-gradient text-background rounded-xl font-rodfat tracking-wide disabled:opacity-50" disabled={(product.stock ?? 0) <= 0} onClick={() => {
                                 setOpen(true)
                                 if (videoRef.current) {
-                                    try { videoRef.current.pause() } catch {}
+                                    try { videoRef.current.pause() } catch { }
                                 }
                             }}>
                                 Ajouter au panier

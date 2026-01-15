@@ -6,6 +6,9 @@ export default function Admin() {
   const [password, setPassword] = useState("")
   const [products, setProducts] = useState([])
   const [loadingProducts, setLoadingProducts] = useState(false)
+  const [whatsappBusinessNumber, setWhatsappBusinessNumber] = useState("")
+  const [loadingSettings, setLoadingSettings] = useState(false)
+  const [savingWhatsappNumber, setSavingWhatsappNumber] = useState(false)
   const [productForm, setProductForm] = useState({
     name: "",
     price: "",
@@ -30,8 +33,6 @@ export default function Admin() {
   const [storyVideos, setStoryVideos] = useState([])
   const [loadingStories, setLoadingStories] = useState(false)
   const [featuredSelection, setFeaturedSelection] = useState([])
-  const [whatsappNumber, setWhatsappNumber] = useState("")
-  const [loadingWhatsapp, setLoadingWhatsapp] = useState(false)
 
   const isEditing = editingId !== null
 
@@ -62,6 +63,26 @@ export default function Admin() {
       return
     }
 
+    async function loadSettings() {
+      setLoadingSettings(true)
+      try {
+        const response = await fetch(`${API_BASE_URL}/admin/settings`, {
+          headers: {
+            Authorization: authHeader(),
+          },
+        })
+        if (!response.ok) {
+          throw new Error("Failed to load settings")
+        }
+        const data = await response.json()
+        setWhatsappBusinessNumber(String(data?.whatsapp_business_number ?? ""))
+      } catch {
+        setWhatsappBusinessNumber("")
+      } finally {
+        setLoadingSettings(false)
+      }
+    }
+
     async function loadStories() {
       setLoadingStories(true)
       try {
@@ -78,6 +99,7 @@ export default function Admin() {
       }
     }
 
+    loadSettings()
     loadStories()
   }, [isAuthenticated])
 
@@ -407,6 +429,40 @@ export default function Admin() {
     }
   }
 
+  async function handleSaveWhatsappNumber(e) {
+    e.preventDefault()
+    setMessage("")
+    setError("")
+    if (!isAuthenticated) {
+      setError("Veuillez d’abord vous connecter en tant qu’admin.")
+      return
+    }
+    setSavingWhatsappNumber(true)
+    try {
+      const response = await fetch(`${API_BASE_URL}/admin/settings`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authHeader(),
+        },
+        body: JSON.stringify({ whatsapp_business_number: whatsappBusinessNumber }),
+      })
+      if (response.status === 401) {
+        throw new Error("Bad admin credentials")
+      }
+      if (!response.ok) {
+        throw new Error("Failed to update WhatsApp number")
+      }
+      const data = await response.json()
+      setWhatsappBusinessNumber(String(data?.whatsapp_business_number ?? ""))
+      setMessage("Numéro WhatsApp business mis à jour.")
+    } catch (err) {
+      setError(err.message || "Erreur lors de la mise à jour du numéro WhatsApp.")
+    } finally {
+      setSavingWhatsappNumber(false)
+    }
+  }
+
   return (
     <section className="pt-28 pb-20 bg-scnd-gradient min-h-screen">
       <div className="max-w-4xl mx-auto px-6">
@@ -600,24 +656,25 @@ export default function Admin() {
         {isAuthenticated && (
           <div className="mt-10 space-y-8">
             <div className="bg-glass rounded-2xl border border-glass p-6">
-              <h2 className="text-xl font-rodfat mb-2">Configuration WhatsApp</h2>
-              <form onSubmit={handleSaveWhatsapp} className="space-y-4">
-                <p className="text-sm text-foreground/70">
-                  Ce numéro sera utilisé pour recevoir les commandes. (Format international sans +, ex: 212600000000)
-                </p>
+              <h2 className="text-xl font-rodfat mb-2">WhatsApp business (commande)</h2>
+              <form onSubmit={handleSaveWhatsappNumber} className="space-y-3">
                 <input
                   type="text"
-                  placeholder="212600000000"
-                  value={whatsappNumber}
-                  onChange={(e) => setWhatsappNumber(e.target.value)}
+                  placeholder="Ex: 212600000000"
+                  value={whatsappBusinessNumber}
+                  onChange={(e) => setWhatsappBusinessNumber(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl bg-primary placeholder:text-background/50 text-background border border-glass outline-none"
+                  required
                 />
-                <button type="submit" className="w-full mt-2 py-3 rounded-xl bg-gold-gradient text-background font-rodfat">
-                  Enregistrer le numéro
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-xl bg-gold-gradient text-background font-rodfat disabled:opacity-60"
+                  disabled={loadingSettings || savingWhatsappNumber || !whatsappBusinessNumber}
+                >
+                  {loadingSettings || savingWhatsappNumber ? "Chargement..." : "Enregistrer le numéro"}
                 </button>
               </form>
             </div>
-
             <div className="bg-glass rounded-2xl border border-glass p-6">
               <h2 className="text-xl font-rodfat mb-2">Thème de la semaine (sélectionnez 4)</h2>
               <form onSubmit={handleSaveFeatured} className="space-y-4">
