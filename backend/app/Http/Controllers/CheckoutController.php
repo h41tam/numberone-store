@@ -35,7 +35,9 @@ class CheckoutController extends Controller
             $lines[] = $product->name.' x'.$qty.' ('.$product->price.' MAD)'.($line['color'] ? ' ['.$line['color'].']' : '').($line['size'] ? ' ['.$line['size'].']' : '');
         }
 
-        $business = env('WHATSAPP_BUSINESS_NUMBER');
+        $setting = Setting::where('key', 'whatsapp_number')->first();
+        $business = $setting ? $setting->value : env('WHATSAPP_BUSINESS_NUMBER');
+        
         if (! $business) {
             return response()->json(['message' => 'WhatsApp business number not configured'], 500);
         }

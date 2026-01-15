@@ -70,9 +70,9 @@ export default function Navbar() {
                         className="flex items-center gap-2 transition-transform duration-500"
                     >
                         <img
-                            src="/images/full-logo.png"
+                            src="/images/full-logo-2.png"
                             alt="logo"
-                            className="h-28 w-auto object-contain absolute top-1/2 -translate-y-1/2"
+                            className="h-16 w-auto object-contain absolute top-1/2 -translate-y-1/2"
                         />
                     </Link>
 

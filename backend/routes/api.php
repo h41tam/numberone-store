@@ -103,4 +103,6 @@ Route::middleware('admin')->group(function () {
 
     Route::post('/story-videos', [StoryVideoController::class, 'store']);
     Route::delete('/story-videos/{id}', [StoryVideoController::class, 'destroy']);
+
+    Route::post('/settings/whatsapp', [SettingController::class, 'updateWhatsapp']);
 });

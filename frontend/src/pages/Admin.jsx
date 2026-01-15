@@ -30,6 +30,8 @@ export default function Admin() {
   const [storyVideos, setStoryVideos] = useState([])
   const [loadingStories, setLoadingStories] = useState(false)
   const [featuredSelection, setFeaturedSelection] = useState([])
+  const [whatsappNumber, setWhatsappNumber] = useState("")
+  const [loadingWhatsapp, setLoadingWhatsapp] = useState(false)
 
   const isEditing = editingId !== null
 
@@ -597,6 +599,25 @@ export default function Admin() {
 
         {isAuthenticated && (
           <div className="mt-10 space-y-8">
+            <div className="bg-glass rounded-2xl border border-glass p-6">
+              <h2 className="text-xl font-rodfat mb-2">Configuration WhatsApp</h2>
+              <form onSubmit={handleSaveWhatsapp} className="space-y-4">
+                <p className="text-sm text-foreground/70">
+                  Ce numéro sera utilisé pour recevoir les commandes. (Format international sans +, ex: 212600000000)
+                </p>
+                <input
+                  type="text"
+                  placeholder="212600000000"
+                  value={whatsappNumber}
+                  onChange={(e) => setWhatsappNumber(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl bg-primary placeholder:text-background/50 text-background border border-glass outline-none"
+                />
+                <button type="submit" className="w-full mt-2 py-3 rounded-xl bg-gold-gradient text-background font-rodfat">
+                  Enregistrer le numéro
+                </button>
+              </form>
+            </div>
+
             <div className="bg-glass rounded-2xl border border-glass p-6">
               <h2 className="text-xl font-rodfat mb-2">Thème de la semaine (sélectionnez 4)</h2>
               <form onSubmit={handleSaveFeatured} className="space-y-4">
